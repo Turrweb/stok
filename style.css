@@ -1,0 +1,89 @@
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+
+.card {
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+}
+
+.btn-reset {
+    background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+    transition: all 0.3s ease;
+}
+
+.btn-reset:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(75, 85, 99, 0.4);
+}
+
+.summary-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border-left: 4px solid;
+}
+
+.modal {
+    backdrop-filter: blur(5px);
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.item-card {
+    transition: all 0.3s ease;
+}
+
+.item-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+.stock-low {
+    border-left-color: #ef4444;
+}
+
+.stock-medium {
+    border-left-color: #f59e0b;
+}
+
+.stock-high {
+    border-left-color: #10b981;
+}
+
+.logo-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.small-icon {
+    width: 16px;
+    height: 16px;
+}
+
+.medium-icon {
+    width: 20px;
+    height: 20px;
+}
