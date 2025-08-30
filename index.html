@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Keuangan & Stok</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .card {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+        .btn-success {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        .btn-warning {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+        .btn-danger {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+        }
+        .btn-reset {
+            background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%); /* Gray color for reset */
+            transition: all 0.3s ease;
+        }
+        .btn-reset:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(75, 85, 99, 0.4);
+        }
+        .summary-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border-left: 4px solid;
+        }
+        .modal {
+            backdrop-filter: blur(5px);
+            background: rgba(0, 0, 0, 0.5);
+        }
+        .item-card {
+            transition: all 0.3s ease;
+        }
+        .item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        }
+        .stock-low {
+            border-left-color: #ef4444;
+        }
+        .stock-medium {
+            border-left-color: #f59e0b;
+        }
+        .stock-high {
+            border-left-color: #10b981;
+        }
+        .logo-icon {
+            width: 24px;
+            height: 24px;
+        }
+        .small-icon {
+            width: 16px;
+            height: 16px;
+        }
+        .medium-icon {
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-500 to-purple-600 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white bg-opacity-10 backdrop-blur-md shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <h1 class="text-2xl font-bold text-white flex items-center">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/be8d261c-576e-4e60-a1d2-2f1211304701.png" alt="Money management icon with calculator and coins in modern minimalist style" class="logo-icon mr-3 rounded-lg">
+                    Sistem Keuangan & Stok
+                </h1>
+                <div class="text-white text-sm" id="currentDate"></div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Dashboard Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="summary-card card rounded-lg p-6 border-l-blue-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-600 font-medium">Total Modal</p>
+                        <p class="text-2xl font-bold text-blue-600" id="totalModal">Rp 0</p>
+                    </div>
+                    <div class="p-3 bg-blue-100 rounded-full">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/5c639a52-63ae-426d-b86b-8ba046d08f94.png" alt="Wallet icon representing initial capital investment in blue color" class="small-icon">
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card card rounded-lg p-6 border-l-red-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-600 font-medium">Total Pengeluaran</p>
+                        <p class="text-2xl font-bold text-red-600" id="totalPengeluaran">Rp 0</p>
+                    </div>
+                    <div class="p-3 bg-red-100 rounded-full">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/9a5805e2-bc03-406c-ad54-768a4c98b255.png" alt="Money outflow icon showing expenses in red color" class="small-icon">
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card card rounded-lg p-6 border-l-green-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-600 font-medium">Total Omset</p>
+                        <p class="text-2xl font-bold text-green-600" id="totalOmset">Rp 0</p>
+                    </div>
+                    <div class="p-3 bg-green-100 rounded-full">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/be550d2b-03f0-445e-9e95-2f576d59e6d3.png" alt="Sales revenue icon with upward trending arrow in green color" class="small-icon">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="card rounded-lg p-6 mb-8">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Aksi Cepat</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                <button type="button" onclick="openModal('modalModal')" class="btn-primary text-white px-4 py-3 rounded-lg font-medium hover:shadow-lg transition-all duration-300">
+                    + Modal
+                </button>
+                <button type="button" onclick="openModal('pengeluaranModal')" class="btn-danger text-white px-4 py-3 rounded-lg font-medium hover:shadow-lg transition-all duration-300">
+                    - Pengeluaran
+                </button>
+                <button type="button" onclick="openModal('itemBaruModal')" class="btn-success text-white px-4 py-3 rounded-lg font-medium hover:shadow-lg transition-all duration-300">
+                    + Item Baru
+                </button>
+                <button type="button" onclick="openModal('tambahStokModal')" class="btn-warning text-white px-4 py-3 rounded-lg font-medium hover:shadow-lg transition-all duration-300">
+                    + Stok
+                </button>
+                <button type="button" onclick="openModal('penjualanModal')" class="btn-primary text-white px-4 py-3 rounded-lg font-medium hover:shadow-lg transition-all duration-300">
+                    Penjualan
+                </button>
+                <button type="button" onclick="openModal('resetConfirmModal')" class="btn-reset text-white px-4 py-3 rounded-lg font-medium hover:shadow-lg transition-all duration-300">
+                    Reset Data
+                </button>
+            </div>
+        </div>
+
+        <!-- Items & Stock -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Stock Items -->
+            <div class="card rounded-lg p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/72468a19-589d-4630-a011-8a078e071d2f.png" alt="Inventory box icon with checklist in modern style" class="medium-icon mr-2">
+                    Stok Barang
+                </h2>
+                <div id="stockList" class="space-y-3">
+                    <div class="text-gray-500 text-center py-8">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/c0eba984-059a-4c49-89f1-f7aeeee5578e.png" alt="Empty inventory illustration with boxes and question mark in light gray" class="mx-auto mb-4 opacity-50">
+                        Belum ada item. Tambah item baru untuk memulai.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transaction History -->
+            <div class="card rounded-lg p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f3a9233c-6eae-4607-abec-93b3de4529ee.png" alt="Transaction history icon with clock and money symbols" class="medium-icon mr-2">
+                    Riwayat Transaksi
+                </h2>
+                <div id="transactionHistory" class="space-y-2 max-h-96 overflow-y-auto">
+                    <div class="text-gray-500 text-center py-8">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/257ff57e-31f8-4ccd-b8e3-d3207a3279a5.png" alt="Empty transaction history illustration with document and clock in light gray" class="mx-auto mb-4 opacity-50">
+                        Belum ada transaksi.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="card rounded-lg p-6 mt-8">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Statistik Penjualan</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="text-center p-4 bg-blue-50 rounded-lg">
+                    <p class="text-2xl font-bold text-blue-600" id="totalItemTerjual">0</p>
+                    <p class="text-sm text-gray-600">Total Item Terjual</p>
+                </div>
+                <div class="text-center p-4 bg-green-50 rounded-lg">
+                    <p class="text-2xl font-bold text-green-600" id="totalJenisItem">0</p>
+                    <p class="text-sm text-gray-600">Jenis Item</p>
+                </div>
+                <div class="text-center p-4 bg-purple-50 rounded-lg">
+                    <p class="text-2xl font-bold text-purple-600" id="rataPenjualan">Rp 0</p>
+                    <p class="text-sm text-gray-600">Rata-rata Penjualan</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white bg-opacity-10 backdrop-blur-md mt-16">
+        <div class="container mx-auto px-4 py-6">
+            <div class="text-center">
+                <p class="text-white text-sm">
+                    © 2025 Sistem Keuangan & Stok. Dibuat oleh 
+                    <span class="font-semibold text-yellow-300">Fajar</span>
+                </p>
+                <p class="text-white text-xs mt-1 opacity-75">
+                    Semua hak cipta dilindungi undang-undang
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <!-- Modal Modal -->
+    <div id="modalModal" class="modal fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 w-full max-w-md mx-4">
+            <h3 class="text-lg font-bold mb-4">Tambah Modal</h3>
+            <form onsubmit="tambahModal(event)">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Jumlah Modal</label>
+                    <input type="number" id="inputModal" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Keterangan</label>
+                    <input type="text" id="keteranganModal" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Modal awal...">
+                </div>
+                <div class="flex justify-end space-x-3">
+                    <button type="button" onclick="closeModal('modalModal')" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">Batal</button>
+                    <button type="submit" class="btn-primary text-white px-4 py-2 rounded-lg">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Pengeluaran Modal -->
+    <div id="pengeluaranModal" class="modal fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 w-full max-w-md mx-4">
+            <h3 class="text-lg font-bold mb-4">Tambah Pengeluaran</h3>
+            <form onsubmit="tambahPengeluaran(event)">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Kategori Pengeluaran</label>
+                    <select id="kategoriPengeluaran" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                        <option value="">Pilih Kategori...</option>
+                        <option value="modal">Dari Modal</option>
+                        <option value="omset">Dari Omset</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Jumlah Pengeluaran</label>
+                    <input type="number" id="inputPengeluaran" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Keterangan</label>
+                    <input type="text" id="keteranganPengeluaran" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="Keperluan operasional..." required>
+                </div>
+                <div id="saldoInfo" class="mb-4 p-3 bg-gray-50 rounded-lg hidden">
+                    <p class="text-sm text-gray-600">Saldo Tersedia: <span id="saldoTersedia" class="font-semibold">Rp 0</span></p>
+                </div>
+                <div class="flex justify-end space-x-3">
+                    <button type="button" onclick="closeModal('pengeluaranModal')" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">Batal</button>
+                    <button type="submit" class="btn-danger text-white px-4 py-2 rounded-lg">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Item Baru Modal -->
+    <div id="itemBaruModal" class="modal fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 w-full max-w-md mx-4">
+            <h3 class="text-lg font-bold mb-4">Tambah Item Baru</h3>
+            <form onsubmit="tambahItemBaru(event)">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Nama Item</label>
+                    <input type="text" id="namaItem" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Harga</label>
+                    <input type="number" id="hargaItem" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Stok Awal</label>
+                    <input type="number" id="stokAwal" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" required>
+                </div>
+                <div class="flex justify-end space-x-3">
+                    <button type="button" onclick="closeModal('itemBaruModal')" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">Batal</button>
+                    <button type="submit" class="btn-success text-white px-4 py-2 rounded-lg">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Tambah Stok Modal -->
+    <div id="tambahStokModal" class="modal fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 w-full max-w-md mx-4">
+            <h3 class="text-lg font-bold mb-4">Tambah Stok</h3>
+            <form onsubmit="tambahStok(event)">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Pilih Item</label>
+                    <select id="pilihItemStok" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500" required>
+                        <option value="">Pilih Item...</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Jumlah Stok Tambahan</label>
+                    <input type="number" id="jumlahStokTambah" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500" required>
+                </div>
+                <div class="flex justify-end space-x-3">
+                    <button type="button" onclick="closeModal('tambahStokModal')" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">Batal</button>
+                    <button type="submit" class="btn-warning text-white px-4 py-2 rounded-lg">Tambah</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Penjualan Modal -->
+    <div id="penjualanModal" class="modal fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 w-full max-w-md mx-4">
+            <h3 class="text-lg font-bold mb-4">Input Penjualan</h3>
+            <form onsubmit="inputPenjualan(event)">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Pilih Item</label>
+                    <select id="pilihItemJual" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        <option value="">Pilih Item...</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Jumlah Terjual</label>
+                    <input type="number" id="jumlahTerjual" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                <div id="infoHarga" class="mb-4 p-3 bg-blue-50 rounded-lg hidden">
+                    <p class="text-sm text-blue-600">Harga: <span id="hargaSatuan">Rp 0</span></p>
+                    <p class="text-sm text-blue-600">Total: <span id="totalHarga">Rp 0</span></p>
+                    <p class="text-sm text-blue-600">Stok Tersedia: <span id="stokTersedia">0</span></p>
+                </div>
+                <div class="flex justify-end space-x-3">
+                    <button type="button" onclick="closeModal('penjualanModal')" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">Batal</button>
+                    <button type="submit" class="btn-primary text-white p
